@@ -15,7 +15,7 @@ vulnerability-alert features are explicitly disabled here.
 
 The hourly workflow:
 
-1. Exchanges the GitHub App client ID and private key for a one-hour installation
+1. Exchanges the GitHub App ID and private key for a one-hour installation
    token covering every repository in the Flanksource organization installation.
 2. Runs Renovate with [`renovate-config.js`](./renovate-config.js).
 3. Discovers `flanksource/*` repositories accessible to the App.
@@ -49,13 +49,14 @@ Configure **Members: read** under organization permissions. Install the App once
 on the Flanksource organization and grant it access to all repositories that
 Renovate should monitor.
 
-In this repository, configure:
+The workflow reuses these organization secrets, which must be available to this
+repository:
 
-- Repository variable `RENOVATE_APP_CLIENT_ID`: the App's client ID.
-- Repository secret `RENOVATE_APP_PRIVATE_KEY`: the complete PEM private key.
+- `FLANKSOURCE_APP_ID`: the App's numeric App ID.
+- `FLANKSOURCE_APP_SECRET`: the complete PEM private key.
 
-The App is installed at organization level; only its credentials live in this
-repository. The workflow's `owner` input deliberately omits a repository list,
+The App and its credentials are managed at organization level. The workflow's
+`owner` input deliberately omits a repository list,
 which creates a token covering all repositories granted to that installation.
 
 ## Operations
